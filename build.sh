@@ -1,7 +1,7 @@
 #!/bin/bash
 
-VERSION=16.0.6.655
-USER=farfui
+VERSION=latest
+USER=al3nas
 
 docker rmi ${USER}/3cx:${VERSION}
 

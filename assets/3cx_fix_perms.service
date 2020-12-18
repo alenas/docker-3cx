@@ -4,7 +4,7 @@ Description=Fix 3CX permissions
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/3cx_fix_perms.sh
+ExecStart=/usr/local/bin/3cx_fix_perms.sh
 
 [Install]
 WantedBy=multi-user.target 
