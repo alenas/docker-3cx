@@ -1,34 +1,31 @@
 #!/bin/bash
 
-VERSION=latest
+VERSION=1
 USER=al3nas
 
-docker rmi ${USER}/3cx:${VERSION}
+podman rmi ${USER}/3cx:${VERSION}
 
-docker build \
+podman build \
         --force-rm \
         --no-cache \
-        --build-arg BUILD_STRING="$(date -u)" \
-        --build-arg BUILD_DATE="$(date +%d-%m-%Y)" \
-        --build-arg BUILD_TIME="$(date +%H:%M:%S)" \
         -t 3cx_stage1 .
 
-docker run \
+podman run \
         -d \
         --privileged \
         --name 3cx_stage1_c 3cx_stage1
 
-docker exec 3cx_stage1_c bash -c \
+podman exec 3cx_stage1_c bash -c \
         "   systemctl mask systemd-logind console-getty.service container-getty@.service getty-static.service getty@.service serial-getty@.service getty.target \
-         && systemctl enable nginx exim4 postgresql \
+         && systemctl enable nginx \
+         && systemctl enable exim4 \
+         && systemctl enable postgresql \
          && echo 1 | apt-get -y install 3cxpbx"
 
-docker stop 3cx_stage1_c
+podman stop 3cx_stage1_c
 
-docker commit 3cx_stage1_c ${USER}/3cx:${VERSION}
+podman commit 3cx_stage1_c ${USER}/3cx:${VERSION}
 
-docker push ${USER}/3cx:${VERSION}
+podman rm 3cx_stage1_c
 
-docker rm 3cx_stage1_c
-
-docker rmi 3cx_stage1
+podman rmi 3cx_stage1

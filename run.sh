@@ -1,9 +1,9 @@
 #!/bin/bash
 
-VERSION=latest
+VERSION=1
 USER=al3nas
 
-docker run \
+podman run \
         -d \
         --name 3cx \
         --hostname voip.pir.lt \

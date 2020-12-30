@@ -1,13 +1,5 @@
 FROM debian:stretch
 
-ARG BUILD_STRING
-ARG BUILD_DATE
-ARG BUILD_TIME
-
-LABEL build.string $BUILD_STRING
-LABEL build.date   $BUILD_DATE
-LABEL build.time   $BUILD_TIME
-
 ENV DEBIAN_FRONTEND noninteractive
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en
@@ -37,8 +29,7 @@ RUN    apt-get update -y \
     && rm -f /lib/systemd/system/basic.target.wants/* \
     && rm -f /lib/systemd/system/anaconda.target.wants/* \
     ## Clean up
-    && apt-get -y clean all \
-    && apt-get -y autoremove
+    && apt-get -y clean all
     ## 3cx permissions fix for docker namespaces
     #&& curl -o /usr/local/bin/3cx_fix_perms.sh https://raw.githubusercontent.com/ekondayan/docker-3cx/main/assets/3cx_fix_perms.sh \
     #&& chmod +x /usr/local/bin/3cx_fix_perms.sh \
