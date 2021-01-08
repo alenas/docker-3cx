@@ -6,7 +6,10 @@ ENV LANGUAGE en
 RUN    apt-get update -y \
     && apt-get upgrade -y \
     && apt-get install -y --allow-unauthenticated \
-         apt-utils gnupg2 curl locales \
+         apt-utils \
+         gnupg2 \
+         curl \
+         locales \
     && sed -i 's/\# \(en_US.UTF-8\)/\1/' /etc/locale.gen \
     && locale-gen \
     && curl http://downloads.3cx.com/downloads/3cxpbx/public.key | apt-key add - \   
@@ -18,14 +21,10 @@ RUN    apt-get update -y \
     && rm -f /lib/systemd/system/basic.target.wants/* \
     && rm -f /lib/systemd/system/anaconda.target.wants/* \
     ## Clean up
-    && apt-get -y clean all
+    && apt-get -y clean all \
+    && systemctl mask systemd-logind console-getty.service container-getty@.service getty-static.service getty@.service serial-getty@.service getty.target
 
-# RUN systemctl mask systemd-logind console-getty.service container-getty@.service getty-static.service getty@.service serial-getty@.service getty.target
-# RUN    systemctl enable nginx \
-#     && systemctl enable exim4 \
-#     && systemctl enable postgresql
-
-VOLUME ["/srv/backup", "/srv/recordings", "/var/log"]
-EXPOSE 5015/tcp 5001/tcp 5060/tcp 5060/udp 5061/udp 5061/tcp 5090/tcp 5090/udp 8089 9000-9500/udp
+VOLUME ["/sys/fs/cgroup", "/srv/backup", "/srv/recordings", "/var/log"]
+EXPOSE 5015/tcp 5001/tcp 5060/tcp 5060/udp 5061/tcp 5090/tcp 5090/udp 8089 9000-9500/udp
 
 ## CMD is in jrei/systemd-debian image
