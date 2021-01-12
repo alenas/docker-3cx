@@ -26,6 +26,6 @@ RUN    apt-get update -y \
 #     && systemctl enable postgresql
 
 VOLUME ["/srv/backup", "/srv/recordings", "/var/log"]
-EXPOSE 5015/tcp 5001/tcp 5060/tcp 5060/udp 5061/udp 5061/tcp 5090/tcp 5090/udp 8089 9000-9500/udp
+EXPOSE 443/tcp 5015/tcp 5001/tcp 5060/tcp 5060/udp 5061/udp 5061/tcp 5090/tcp 5090/udp 9000-9500/udp
 
 ## CMD is in jrei/systemd-debian image

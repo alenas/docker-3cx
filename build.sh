@@ -15,7 +15,9 @@ podman build \
 podman run \
         -d \
         --privileged \
-        --name 3cx_stage1_c bytecity/3cx:16.0.7.1078
+        --systemd=false \
+            -v /sys/fs/cgroup:/sys/fs/cgroup:ro \
+        --name 3cx_stage1_c 3cx_stage1
         
 
 podman exec 3cx_stage1_c bash -c \
